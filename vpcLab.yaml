@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'VPC Lab'
+
+# Define AWS Resources
+Resources:
+
+  # Creates a VPC
+  MyVPC:
+  Type: 'AWS::EC2::VPC' 
+    Properties:
+      CidrBlock: '10.0.0.0/16'
+      EnableDnsSupport: true # EC2 inst. can resolve public AWS-provided DNS hostnames to IP addresses
+      EnableDnsHostnames: true #EC2 inst. in the VPC get a public DNS hostname
+      Tags:
+        - Key: Name
+          Value: MyVPC
+
