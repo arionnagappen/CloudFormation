@@ -6,12 +6,79 @@ Resources:
 
   # Creates a VPC
   MyVPC:
-  Type: 'AWS::EC2::VPC' 
+    Type: 'AWS::EC2::VPC' 
     Properties:
       CidrBlock: '10.0.0.0/16'
       EnableDnsSupport: true # EC2 inst. can resolve public AWS-provided DNS hostnames to IP addresses
       EnableDnsHostnames: true #EC2 inst. in the VPC get a public DNS hostname
       Tags:
         - Key: Name
-          Value: MyVPC
+          Value: MyVPC  
 
+  # Public Subnet in AZ1
+  PublicSubnet1A:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.1.0/24'
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: true # Any instance launched here will get a public IP
+      Tags:
+        - Key: Name
+          Value: PublicSubnet1A
+
+  # PrivateApp1 Subnet in AZ1
+  PrivateAppSubnet1A:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.2.0/24'
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: PrivateAppSubnet1A
+
+  # Database1 Subnet in AZ1
+  PrivateDatabaseSubnet1A:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.3.0/24'
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: PrivateDatabaseSubnet1A
+
+  # Public Subnet in AZ2
+  PublicSubnet1B:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.4.0/24'
+      AvailabilityZone: !Select [1, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: PublicSubnet1B
+
+  # PrivateApp2 Subnet in AZ2
+  PrivateAppSubnet1B:
+    Type: 'AWS::EC2::Subnet'
+    Properties: 
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.5.0/24'
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: PrivateAppSubnet1B
+
+  # PrivateDatabase2 Subnet in AZ2
+  PrivateDatabaseSubnet1B:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.6.0/24'
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: PrivateDatabaseSubnet1B
