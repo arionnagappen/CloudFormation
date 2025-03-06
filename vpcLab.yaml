@@ -176,3 +176,27 @@ Resources:
 
 
   # App1B Instance
+  AppInstance1B:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t3.micro
+      ImageId: ami-071ec74a9abd8fec2
+      SubnetId: !Ref PrivateAppSubnet1B
+      SecurityGroupIds:
+        - !Ref App1BSG
+      Tags:
+        - Key: Name
+          Value:  AppInstance1B
+
+  # App1B Security Group
+  App1BSG:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Allow ICMP Ping traffic from PrivateAppSubnet1A'
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          SourceSecurityGroupId: !Ref App1ASG
+      
