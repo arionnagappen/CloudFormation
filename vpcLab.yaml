@@ -147,13 +147,14 @@ Resources:
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          CidrIp: 102.223.57.87/32
+          CidrIp: 102.223.57.109/32
    
   # App1A Instance
   AppInstance1A:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t3.micro
+      KeyName: bastion
       ImageId: ami-071ec74a9abd8fec2
       SubnetId: !Ref PrivateAppSubnet1A
       SecurityGroupIds:
@@ -172,7 +173,8 @@ Resources:
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          SourceSecurityGroupId: !Ref BastionSG # Allows flexibility & prevents manual IP allocation
+          SourceSecurityGroupId: !Ref BastionSG 
+          # Allows flexibility & prevents manual IP allocation
 
 
   # App1B Instance
